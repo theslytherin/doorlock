@@ -66,7 +66,7 @@ class Fullscreen_Window:
         def guest(self):
             T = tk.Text(self.tk, height=50, width=50)
             T.insert(tk.END, "Please enter token for guest")
-            T.grid(row=5, column=1)
+            T.grid(row=5, column=6)
             
 
         def show_idle1(self):
@@ -78,11 +78,11 @@ class Fullscreen_Window:
                    text="Resident", 
                    fg="red",
                    command=self.res())
-            button.grid(row = 0, column = 1, pady = 2)
+            button.grid(row = 4, column = 1, pady = 2)
             slogan = tk.Button(self.tk,
                    text="Guest",
                    command=self.guest())
-            slogan.grid(row = 1, column = 1, pady = 2)
+            slogan.grid(row = 5, column = 1, pady = 2)
             
             
                 
