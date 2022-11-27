@@ -56,17 +56,16 @@ class Fullscreen_Window:
                
         
         def res(self):
-            T = tk.Text(self.tk, height=50, width=50)
-            T.insert(tk.END, "Please enter token for resident")
-            T.grid(row=5, column=1)
+            label = Label(self.tk, text=" Resident", font=('Helvetica 15'))
+            label.grid(row=1, column=1)
+            
             t = Thread(target=self.listen_rfid)
             t.daemon = True
             t.start()
 
         def guest(self):
-            T = tk.Text(self.tk, height=50, width=50)
-            T.insert(tk.END, "Please enter token for guest")
-            T.grid(row=5, column=6)
+            label = Label(self.tk, text=" Resident", font=('Helvetica 15'))
+            label.grid(row=2, column=1)
             
 
         def show_idle1(self):
@@ -77,12 +76,12 @@ class Fullscreen_Window:
             button = tk.Button(self.tk, 
                    text="Resident", 
                    fg="red")
-            button['command']=res()
+            button['command']=self.res
                    
             button.grid(row = 4, column = 1, pady = 2)
             slogan = tk.Button(self.tk,
                    text="Guest",
-                   command=self.guest())
+                   command=self.guest)
             slogan.grid(row = 5, column = 1, pady = 2)
             
             
@@ -150,6 +149,7 @@ class Fullscreen_Window:
                                                         dbConnection = MySQLdb.connect(host=dbHost, user=dbUser, passwd=dbPass, db=dbName)
                                                         cur = dbConnection.cursor(MySQLdb.cursors.DictCursor)
                                                         cur.execute("SELECT * FROM access_list WHERE rfid_code = '%s'" % (rfid_presented))
+                                                        label.after(1000, label.destroy())
                                                         
                                                         if cur.rowcount != 1:
                                                                 self.welcomeLabel.config(text="ACCESS DENIED")
