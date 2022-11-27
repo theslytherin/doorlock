@@ -56,7 +56,19 @@ class Fullscreen_Window:
                 t = Thread(target=self.listen_rfid)
                 t.daemon = True
                 t.start()
-        def show_idle1():
+        
+        def res():
+            self.welcomeLabel = ttk.Label(self.tk, text="Please Present\nYour Token")
+            self.welcomeLabel.config(font='size, 20', justify='center', anchor='center')
+            self.welcomeLabel.grid(sticky=tk.W+tk.E, pady=210)
+
+        def guest():
+            self.welcomeLabel = ttk.Label(self.tk, text="Please Present\nYour Token")
+            self.welcomeLabel.config(font='size, 20', justify='center', anchor='center')
+            self.welcomeLabel.grid(sticky=tk.W+tk.E, pady=210)
+            
+
+        def show_idle1(self):
             root = tk.Tk()
             frame = tk.Frame(root)
             frame.pack()
@@ -71,17 +83,6 @@ class Fullscreen_Window:
                    text="Guest",
                    command=guest)
             slogan.pack(side=tk.LEFT)
-
-        def res():
-            self.welcomeLabel = ttk.Label(self.tk, text="Please Present\nYour Token")
-            self.welcomeLabel.config(font='size, 20', justify='center', anchor='center')
-            self.welcomeLabel.grid(sticky=tk.W+tk.E, pady=210)
-
-        def guest():
-            self.welcomeLabel = ttk.Label(self.tk, text="Please Present\nYour Token")
-            self.welcomeLabel.config(font='size, 20', justify='center', anchor='center')
-            self.welcomeLabel.grid(sticky=tk.W+tk.E, pady=210)
-            
             
             
                 
@@ -171,7 +172,7 @@ class Fullscreen_Window:
                                                                 self.validUser = ttk.Label(self.tk, text="Welcome\n %s!" % (user_info['name']), font='size, 15', justify='center', anchor='center')
                                                                 self.validUser.grid(columnspan=3, sticky=tk.W+tk.E)
                                                                 
-                                                                self.image = tk.PhotoImage(file="/home/root1/Desktop/"+user_info['image'] + ".gif")
+                                                                self.image = tk.PhotoImage(file=user_info['image'] + ".gif")
                                                                 self.photoLabel = ttk.Label(self.tk, image=self.image)
                                                                 self.photoLabel.grid(columnspan=3)
                                                                 
