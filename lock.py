@@ -24,6 +24,7 @@ except ImportError:
         # python 3
         import tkinter as tk
         from tkinter import ttk
+        from tkinter import Label
         
 class Fullscreen_Window:
         
@@ -155,6 +156,7 @@ class Fullscreen_Window:
                                                         
                                                         
                                                         if cur.rowcount != 1:
+                                                                label.destroy()
                                                                 self.welcomeLabel.config(text="ACCESS DENIED")
                                                                 
                                                                 # Log access attempt
@@ -165,10 +167,11 @@ class Fullscreen_Window:
                                                                 self.welcomeLabel.grid_forget()
                                                                 self.show_idle1()
                                                         else:
+                                                                label.destroy()
                                                                 user_info = cur.fetchone()
                                                                 userPin = user_info['pin']
                                                                 self.welcomeLabel.grid_forget()
-                                                                self.validUser = ttk.Label(self.tk, text="Welcome\n %s!" % (user_info['name']), font='size, 15', justify='center', anchor='center')
+                                                                self.validUser = ttk.Label(self.tk, text="Welcome\n %s!" % (user_info['name']), font='size, 15', justify='top', anchor='center')
                                                                 self.validUser.grid(columnspan=3, sticky=tk.W+tk.E)
                                                                 
                                                                 self.image = tk.PhotoImage(file="/home/root1/Desktop/"+user_info['image'] + ".gif")
