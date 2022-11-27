@@ -69,7 +69,7 @@ class Fullscreen_Window:
             
 
         def show_idle1(self):
-            self.welcomeLabel = ttk.Label(self.tk, text= " PLease choose:")
+            self.welcomeLabel = ttk.Label(self.tk, text= " Please choose:")
             self.welcomeLabel.config(font='size, 20', justify='center', anchor='center')
             self.welcomeLabel.grid(sticky=tk.W+tk.E, pady=210)
             
@@ -77,11 +77,11 @@ class Fullscreen_Window:
                    text="Resident", 
                    fg="red",
                    command=self.res())
-            button.grid(column=5, row=5)
+            button.grid(row = 0, column = 1, pady = 2)
             slogan = tk.Button(self.tk,
                    text="Guest",
                    command=self.guest())
-            slogan.grid(column=7, row=5)
+            slogan.grid(crow = 1, column = 1, pady = 2)
             
             
                 
