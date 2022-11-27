@@ -62,9 +62,8 @@ class Fullscreen_Window:
             t = Thread(target=self.listen_rfid)
             t.daemon = True
             t.start()
-            label.destroy()
-            Button.destroy()
-            slogan.destroy()
+            
+            
             
 
         def guest(self):
@@ -164,7 +163,7 @@ class Fullscreen_Window:
                                                                 
                                                                 time.sleep(3)
                                                                 self.welcomeLabel.grid_forget()
-                                                                self.show_idle()
+                                                                self.show_idle1()
                                                         else:
                                                                 user_info = cur.fetchone()
                                                                 userPin = user_info['pin']
