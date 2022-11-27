@@ -57,15 +57,15 @@ class Fullscreen_Window:
                 t.daemon = True
                 t.start()
         
-        def res():
-            self.welcomeLabel = ttk.Label(self.tk, text="Please Present\nYour Token")
-            self.welcomeLabel.config(font='size, 20', justify='center', anchor='center')
-            self.welcomeLabel.grid(sticky=tk.W+tk.E, pady=210)
+        def res(self):
+            T = tk.Text(self.tk, height=30, width=30)
+            T.insert(tk.END, "Please enter token")
+            T.grid(sticky=tk.W+tk.E, pady=210)
 
-        def guest():
-            self.welcomeLabel = ttk.Label(self.tk, text="Please Present\nYour Token")
-            self.welcomeLabel.config(font='size, 20', justify='center', anchor='center')
-            self.welcomeLabel.grid(sticky=tk.W+tk.E, pady=210)
+        def guest(self):
+            T = tk.Text(self.tk, height=30, width=30)
+            T.insert(tk.END, "Please enter token")
+            T.grid(sticky=tk.W+tk.E, pady=210)
             
 
         def show_idle1(self):
@@ -81,7 +81,7 @@ class Fullscreen_Window:
             slogan = tk.Button(self.tk,
                    text="Guest",
                    command=self.guest())
-            slogan.grid(crow = 1, column = 1, pady = 2)
+            slogan.grid(row = 1, column = 1, pady = 2)
             
             
                 
