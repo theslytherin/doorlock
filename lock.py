@@ -69,17 +69,16 @@ class Fullscreen_Window:
             
 
         def show_idle1(self):
-            self.tk.pack()
-            self.welcomeLabel = ttk.Label(frame, text= " PLease choose:")
+            self.welcomeLabel = ttk.Label(self.tk, text= " PLease choose:")
             
             button = tk.Button(self.tk, 
                    text="Resident", 
                    fg="red",
-                   command=res)
+                   command=self.res())
             button.pack(side=tk.LEFT)
             slogan = tk.Button(self.tk,
                    text="Guest",
-                   command=guest)
+                   command=self.guest())
             slogan.pack(side=tk.LEFT)
             
             
