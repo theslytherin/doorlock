@@ -53,13 +53,11 @@ class Fullscreen_Window:
                 
                 self.show_idle1()
                 
-                t = Thread(target=self.listen_rfid)
-                t.daemon = True
-                t.start()
+               
         
         def res(self):
             T = tk.Text(self.tk, height=50, width=50)
-            T.insert(tk.END, "Please enter token for resident")
+            T.insert(self.tk, "Please enter token for resident")
             T.grid(row=5, column=1)
             t = Thread(target=self.listen_rfid)
             t.daemon = True
@@ -67,7 +65,7 @@ class Fullscreen_Window:
 
         def guest(self):
             T = tk.Text(self.tk, height=50, width=50)
-            T.insert(tk.END, "Please enter token for guest")
+            T.insert(self.text, "Please enter token for guest")
             T.grid(row=5, column=1)
             
 
