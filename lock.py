@@ -76,8 +76,9 @@ class Fullscreen_Window:
             
             button = tk.Button(self.tk, 
                    text="Resident", 
-                   fg="red",
-                   command=self.res())
+                   fg="red")
+            button['command']=res()
+                   
             button.grid(row = 4, column = 1, pady = 2)
             slogan = tk.Button(self.tk,
                    text="Guest",
