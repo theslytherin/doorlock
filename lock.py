@@ -62,9 +62,13 @@ class Fullscreen_Window:
             t = Thread(target=self.listen_rfid)
             t.daemon = True
             t.start()
+            label.destroy()
+            Button.destroy()
+            slogan.destroy()
+            
 
         def guest(self):
-            label = Label(self.tk, text=" Resident", font=('Helvetica 15'))
+            label = Label(self.tk, text=" Guest", font=('Helvetica 15'))
             label.grid(row=2, column=1)
             
 
@@ -149,7 +153,7 @@ class Fullscreen_Window:
                                                         dbConnection = MySQLdb.connect(host=dbHost, user=dbUser, passwd=dbPass, db=dbName)
                                                         cur = dbConnection.cursor(MySQLdb.cursors.DictCursor)
                                                         cur.execute("SELECT * FROM access_list WHERE rfid_code = '%s'" % (rfid_presented))
-                                                        label.after(1000, label.destroy())
+                                                        
                                                         
                                                         if cur.rowcount != 1:
                                                                 self.welcomeLabel.config(text="ACCESS DENIED")
