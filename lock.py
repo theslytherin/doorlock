@@ -33,9 +33,9 @@ class Fullscreen_Window:
         global dbPass
         
         dbHost = 'localhost'
-        dbName = 'DB_NAME'
-        dbUser = 'USER'
-        dbPass = 'PASSWORD'
+        dbName = 'door_lock'
+        dbUser = 'anu'
+        dbPass = 'root1'
         
         def __init__(self):
                 self.tk = tk.Tk()
@@ -69,17 +69,15 @@ class Fullscreen_Window:
             
 
         def show_idle1(self):
-            root = tk.Tk()
-            frame = tk.Frame(root)
-            frame.pack()
+            self.tk.pack()
             self.welcomeLabel = ttk.Label(frame, text= " PLease choose:")
             
-            button = tk.Button(frame, 
+            button = tk.Button(self.tk, 
                    text="Resident", 
                    fg="red",
                    command=res)
             button.pack(side=tk.LEFT)
-            slogan = tk.Button(frame,
+            slogan = tk.Button(self.tk,
                    text="Guest",
                    command=guest)
             slogan.pack(side=tk.LEFT)
@@ -87,8 +85,6 @@ class Fullscreen_Window:
             
                 
         def show_idle(self):
-                    B = Tkinter.Button(top, text ="Resident", command = self.show_idle())
-                    B.pack()
                     self.welcomeLabel = ttk.Label(self.tk, text="Please Present\nYour Token")
                     self.welcomeLabel.config(font='size, 20', justify='center', anchor='center')
                     self.welcomeLabel.grid(sticky=tk.W+tk.E, pady=210)
@@ -172,7 +168,7 @@ class Fullscreen_Window:
                                                                 self.validUser = ttk.Label(self.tk, text="Welcome\n %s!" % (user_info['name']), font='size, 15', justify='center', anchor='center')
                                                                 self.validUser.grid(columnspan=3, sticky=tk.W+tk.E)
                                                                 
-                                                                self.image = tk.PhotoImage(file=user_info['image'] + ".gif")
+                                                                self.image = tk.PhotoImage(file="/home/root1/Desktop/"+user_info['image'] + ".gif")
                                                                 self.photoLabel = ttk.Label(self.tk, image=self.image)
                                                                 self.photoLabel.grid(columnspan=3)
                                                                 
