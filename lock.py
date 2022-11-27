@@ -70,23 +70,22 @@ class Fullscreen_Window:
 
         def show_idle1(self):
             self.welcomeLabel = ttk.Label(self.tk, text= " PLease choose:")
+            self.welcomeLabel.config(font='size, 20', justify='center', anchor='center')
+            self.welcomeLabel.grid(sticky=tk.W+tk.E, pady=210)
             
             button = tk.Button(self.tk, 
                    text="Resident", 
                    fg="red",
                    command=self.res())
-            button.pack(side=tk.LEFT)
+            button.grid(column=5, row=5)
             slogan = tk.Button(self.tk,
                    text="Guest",
                    command=self.guest())
-            slogan.pack(side=tk.LEFT)
+            slogan.grid(column=7, row=5)
             
             
                 
-        def show_idle(self):
-                    self.welcomeLabel = ttk.Label(self.tk, text="Please Present\nYour Token")
-                    self.welcomeLabel.config(font='size, 20', justify='center', anchor='center')
-                    self.welcomeLabel.grid(sticky=tk.W+tk.E, pady=210)
+       
         
         def pin_entry_forget(self):
                 self.validUser.grid_forget()
@@ -99,16 +98,16 @@ class Fullscreen_Window:
                 
         def returnToIdle_fromPINentry(self):
                 self.pin_entry_forget()
-                self.show_idle()
+                self.show_idle1()
                 
         def returnToIdle_fromPINentered(self):
                 self.PINresultLabel.grid_forget()
-                self.show_idle()
+                self.show_idle1()
                 
         def returnToIdle_fromAccessGranted(self):
                 GPIO.output(13,GPIO.LOW)
                 self.SMSresultLabel.grid_forget()
-                self.show_idle()
+                self.show_idle1()
                 
         def returnToIdle_fromSMSentry(self):
                 self.PINresultLabel.grid_forget()
@@ -117,11 +116,11 @@ class Fullscreen_Window:
                 while (count < 12):
                         self.btn[count].grid_forget()
                         count += 1
-                self.show_idle()
+                self.show_idle1()
                 
         def	returnToIdle_fromSMSentered(self):
                 self.SMSresultLabel.grid_forget()
-                self.show_idle()
+                self.show_idle1()
         
         def toggle_fullscreen(self, event=None):
                 self.state = not self.state  # Just toggling the boolean
