@@ -69,6 +69,9 @@ class Fullscreen_Window:
         def guest(self):
             label = Label(self.tk, text=" Guest", font=('Helvetica 15'))
             label.grid(row=2, column=1)
+            label.after(1000, label.destroy)
+            
+            
             
 
         def show_idle1(self):
@@ -85,9 +88,9 @@ class Fullscreen_Window:
                    text="Guest",
                    command=self.guest)
             slogan.grid(row = 5, column = 1, padx = 2)
-            button.after(5000, button.destroy())
-            slogan.after(5000, slogan.destroy())
-            self.welcomeLabel.after(5000, self.welcomeLabel.destroy())
+            button.after(5000, button.destroy)
+            slogan.after(5000, slogan.destroy)
+            
             
                 
        
