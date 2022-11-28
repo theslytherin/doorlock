@@ -370,6 +370,69 @@ class Fullscreen_Window:
                 request = Request(url, urlencode(post_fields).encode())
                 json = urlopen(request).read().decode()
                 print(json)
+
+        def getpin(self):
+                rfid_presented = "12348"
+                dbConnection = MySQLdb.connect(host=dbHost, user=dbUser, passwd=dbPass, db=dbName)
+                cur = dbConnection.cursor(MySQLdb.cursors.DictCursor)
+                cur.execute("SELECT * FROM access_list WHERE rfid_code = '%s'" % (rfid_presented))
+                if cur.rowcount != 1:
+                    self.welcomeLabel.config(text="ACCESS DENIED")
+                    # Log access attempt
+                    cur.execute("INSERT INTO access_log SET rfid_presented = '%s', rfid_presented_datetime = NOW(), rfid_granted = 0" % (rfid_presented))
+                    dbConnection.commit()
+                    time.sleep(3)
+                    self.welcomeLabel.grid_forget()
+                    self.show_idle1()
+                else:
+                    user_info = cur.fetchone()
+                    userPin = user_info['pin']
+                    self.welcomeLabel.grid_forget()
+                    self.validUser = ttk.Label(self.tk, text="Welcome\n %s!" % (user_info['name']), font='size, 15', justify='top', anchor='center')
+                    self.validUser.grid(columnspan=3, sticky=tk.W+tk.E)
+                    self.image = tk.PhotoImage(file="/home/root1/Desktop/"+user_info['image'] + ".gif")
+                    self.photoLabel = ttk.Label(self.tk, image=self.image)
+                    self.photoLabel.grid(columnspan=3)
+                    self.enterPINlabel = ttk.Label(self.tk, text="Please enter your PIN:", font='size, 18', justify='center', anchor='center')
+                    self.enterPINlabel.grid(columnspan=3, sticky=tk.W+tk.E)
+                    pin = ''
+                    keypad = [
+                              '1', '2', '3',
+                              '4', '5', '6',
+                              '7', '8', '9',
+                              '*', '0', '#',
+                                           ]
+                                                                
+                                                                # create and position all buttons with a for-loop
+                    r = 4
+                    c = 0
+                    n = 0
+                                                                # list(range()) needed for Python3
+                    self.btn = list(range(len(keypad)))
+                    for label in keypad:
+                        self.btn[n] = tk.Button(self.tk, text=label, font='size, 18', width=4, height=1, command=lambda digitPressed=label:self.codeInput(digitPressed, userPin, user_info['sms_number']))
+                                                                        # position the button
+                        self.btn[n].grid(row=r, column=c, ipadx=10, ipady=10)
+                                                                        # increment button index
+                        n += 1
+                                                                        # update row/column position
+                        c += 1
+                        if c > 2:
+                            c = 0
+                            r += 1
+
+                    cur.execute("INSERT INTO access_log SET rfid_presented = '%s', rfid_presented_datetime = NOW(), rfid_granted = 1" % (rfid_presented))
+                    dbConnection.commit()
+                    accessLogId = cur.lastrowid
+                                                                
+                    self.PINentrytimeout = threading.Timer(10, self.returnToIdle_fromPINentry)
+                    self.PINentrytimeout.start()
+                                                                
+                    self.PINenteredtimeout = threading.Timer(5, self.returnToIdle_fromPINentered)
+                rfid_presented = ""
+                dbConnection.close()
+            
+                
                 
                                 
         def sendSMScode(self, mobileNumber):
