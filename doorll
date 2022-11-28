@@ -1,6 +1,12 @@
+
+
+
 #!/usr/bin/env python3
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
+from flask import Flask, request, redirect
+from twilio.twiml.messaging_response import MessagingResponse
+
 import base64
 import sys
 import MySQLdb
@@ -59,42 +65,46 @@ class Fullscreen_Window:
                
         
         def res(self):
-            label = Label(self.tk, text=" Resident", font=('Helvetica 15'))
-            label.grid(row=1, column=1)
+            self.label = Label(self.tk, text=" Dear Resident, Please enter your token:", font=('Helvetica 15'))
+            self.label.grid(row=1, column=0)
+            self.label.config( justify='center', anchor='center')
             
+            self.welcomeLabel.grid_forget()
             t = Thread(target=self.listen_rfid)
             t.daemon = True
             t.start()
-            
-            
+            self.button.grid_forget()
+            self.slogan.grid_forget()
             
 
         def guest(self):
-            label = Label(self.tk, text=" Guest", font=('Helvetica 15'))
-            label.grid(row=2, column=1)
-            label.after(1000, label.destroy)
+            self.label = Label(self.tk, text=" Guest", font=('Helvetica 15'))
+            self.label.config( justify='center', anchor='center')
             
-            
+            self.label.grid(row=2, column=1)
+            self.button.grid_forget()
+            self.slogan.grid_forget()
+            self.welcomeLabel.grid_forget()
+            self.guestlogin()
             
 
         def show_idle1(self):
             self.welcomeLabel = ttk.Label(self.tk, text= " Please choose:")
-            self.welcomeLabel.config(font='size, 20', justify='center', anchor='center')
+            self.welcomeLabel.config(font='size, 15', justify='center', anchor='center')
             self.welcomeLabel.grid(sticky=tk.W+tk.E, pady=210)
             
-            button = tk.Button(self.tk, 
+            self.button = tk.Button(self.tk, 
                    text="Resident")
-            button['command']=self.res
+            self.button['command']=self.res
                    
-            button.grid(row = 0, column = 1, padx = 100)
-            slogan = tk.Button(self.tk,
+            self.button.grid(row = 0, column = 1, padx = 30, pady=100)
+            self.slogan = tk.Button(self.tk,
                    text="Guest",
                    command=self.guest)
-            slogan.grid(row = 5, column = 1, padx = 2)
-            button.after(5000, button.destroy)
-            slogan.after(5000, slogan.destroy)
+            self.slogan.grid(row = 5, column = 1)
             
             
+             
                 
        
         
@@ -152,6 +162,7 @@ class Fullscreen_Window:
                 rfid_presented = ""
 
                 while True:
+                        
                         r,w,x = select([dev], [], [])
                         for event in dev.read():
                                 if event.type==1 and event.value==1:
@@ -173,11 +184,11 @@ class Fullscreen_Window:
                                                                 self.welcomeLabel.grid_forget()
                                                                 self.show_idle1()
                                                         else:
-                                                                
+                                                                self.label.grid_forget() 
                                                                 user_info = cur.fetchone()
                                                                 userPin = user_info['pin']
                                                                 self.welcomeLabel.grid_forget()
-                                                                self.validUser = ttk.Label(self.tk, text="Welcome\n %s!" % (user_info['name']), font='size, 15', justify='top', anchor='center')
+                                                                self.validUser = ttk.Label(self.tk, text="Welcome\n %s!" % (user_info['name']), font='size, 15', justify='center', anchor='center')
                                                                 self.validUser.grid(columnspan=3, sticky=tk.W+tk.E)
                                                                 
                                                                 self.image = tk.PhotoImage(file="/home/root1/Desktop/"+user_info['image'] + ".gif")
@@ -350,7 +361,13 @@ class Fullscreen_Window:
                                 
                                 self.SMSenteredtimeout = threading.Timer(10, self.returnToIdle_fromSMSentered)
                                 self.SMSenteredtimeout.start()
-        def guestlogin(self, mobileNumber):
+        
+        def guestlogin(self):
+                self.label1 = Label(self.tk, text=" Dear Guest, your request has been sent!", font=('Helvetica 15'))
+                self.label1.grid(row=1, column=0)
+                self.label1.config( justify='center', anchor='center')
+            
+                self.label.grid_forget()
                 url = 'https://www.pushsafer.com/api'
                 post_fields = {
                     "t" : 'Alert',
@@ -358,6 +375,8 @@ class Fullscreen_Window:
 	            "s" : 11,
 	            "v" : 3,
 	            "i" : 33,
+                    "a" : 1,
+                    "ao" : 'Accept|Decline',
 	            "c" : '#FF0000',
 	            "d" : 'a',
 	            "u" : 'https://www.pushsafer.com',
@@ -368,7 +387,32 @@ class Fullscreen_Window:
                 request = Request(url, urlencode(post_fields).encode())
                 json = urlopen(request).read().decode()
                 print(json)
-                
+                self.image = tk.PhotoImage(file="/home/root1/Downloads/pic2.png")
+                self.photoLabel = ttk.Label(self.tk, image=self.image)
+                self.photoLabel.grid(columnspan=3)
+                self.photoLabel.after(2000,self.enterpin) 
+          
+        def enterpin(self):
+                self.label1 = Label(self.tk, text=" Please enter your name and phone number", font=('Helvetica 15'))
+                self.label1.config( justify='center', anchor='center')
+            
+                self.label1.grid(row=2, column=1)
+                app = Flask(__name__)
+
+                @app.route("/sms", methods=['GET', 'POST'])
+                def sms_reply():
+                    resp = MessagingResponse()
+                    body = request.values.get('Body', None)
+                    print(body)
+
+    # Add a message
+                    resp.message("Request Received!")
+
+                    return str(resp)
+
+                if __name__ == "__main__":
+                    app.run(debug=True)                                                                             
+                                                                       
                                 
         def sendSMScode(self, mobileNumber):
         
