@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 import sys
 import MySQLdb
@@ -63,33 +62,35 @@ class Fullscreen_Window:
             t = Thread(target=self.listen_rfid)
             t.daemon = True
             t.start()
-            label.after(2000, label.destroy)
-
+            
             
             
 
         def guest(self):
             label = Label(self.tk, text=" Guest", font=('Helvetica 15'))
             label.grid(row=2, column=1)
-            label.after(2000, label.destroy)
+            
 
         def show_idle1(self):
             self.welcomeLabel = ttk.Label(self.tk, text= " Please choose:")
             self.welcomeLabel.config(font='size, 20', justify='center', anchor='center')
             self.welcomeLabel.grid(sticky=tk.W+tk.E, pady=210)
-            
+            style = Style()
+            style.configure('W.TButton', font =
+               ('calibri', 40, 'bold', 'underline'),
+                foreground = 'black')
             button = tk.Button(self.tk, 
                    text="Resident", 
-                   fg="red")
+                   Style= 'W.TButton')
             button['command']=self.res
                    
-            button.grid(row = 4, column = 1, pady = 2)
+            button.grid(row = 0, column = 1, padx = 100)
             slogan = tk.Button(self.tk,
                    text="Guest",
+                   Style= 'W.TButton',
                    command=self.guest)
-            slogan.grid(row = 5, column = 1, pady = 2)
-            button.after(5000, button.destroy)
-            slogan.after(5000, slogan.destroy)
+            slogan.grid(row = 5, column = 1, padx = 2)
+            
             
                 
        
@@ -158,7 +159,7 @@ class Fullscreen_Window:
                                                         
                                                         
                                                         if cur.rowcount != 1:
-                                                                
+                                                                label.destroy()
                                                                 self.welcomeLabel.config(text="ACCESS DENIED")
                                                                 
                                                                 # Log access attempt
@@ -169,11 +170,11 @@ class Fullscreen_Window:
                                                                 self.welcomeLabel.grid_forget()
                                                                 self.show_idle1()
                                                         else:
-                                                                
+                                                                label.destroy()
                                                                 user_info = cur.fetchone()
                                                                 userPin = user_info['pin']
                                                                 self.welcomeLabel.grid_forget()
-                                                                self.validUser = ttk.Label(self.tk, text="Welcome\n %s!" % (user_info['name']), font='size, 15', justify='center', anchor='center')
+                                                                self.validUser = ttk.Label(self.tk, text="Welcome\n %s!" % (user_info['name']), font='size, 15', justify='top', anchor='center')
                                                                 self.validUser.grid(columnspan=3, sticky=tk.W+tk.E)
                                                                 
                                                                 self.image = tk.PhotoImage(file="/home/root1/Desktop/"+user_info['image'] + ".gif")
@@ -372,4 +373,4 @@ class Fullscreen_Window:
 
 if __name__ == '__main__':
         w = Fullscreen_Window()
-        w.tk.mainloop()
+        w.tk.mainloop() 
