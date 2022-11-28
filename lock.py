@@ -75,22 +75,19 @@ class Fullscreen_Window:
             self.welcomeLabel = ttk.Label(self.tk, text= " Please choose:")
             self.welcomeLabel.config(font='size, 20', justify='center', anchor='center')
             self.welcomeLabel.grid(sticky=tk.W+tk.E, pady=210)
-            style = Style()
-            style.configure('W.TButton', font =
-               ('calibri', 40, 'bold', 'underline'),
-                foreground = 'black')
+            
             button = tk.Button(self.tk, 
-                   text="Resident", 
-                   Style= 'W.TButton')
+                   text="Resident")
             button['command']=self.res
                    
             button.grid(row = 0, column = 1, padx = 100)
             slogan = tk.Button(self.tk,
                    text="Guest",
-                   Style= 'W.TButton',
                    command=self.guest)
             slogan.grid(row = 5, column = 1, padx = 2)
-            
+            button.after(5000, button.destroy())
+            slogan.after(5000, slogan.destroy())
+            self.welcomeLabel.after(5000, self.welcomeLabel.destroy())
             
                 
        
@@ -159,7 +156,7 @@ class Fullscreen_Window:
                                                         
                                                         
                                                         if cur.rowcount != 1:
-                                                                label.destroy()
+                                                                
                                                                 self.welcomeLabel.config(text="ACCESS DENIED")
                                                                 
                                                                 # Log access attempt
@@ -170,7 +167,7 @@ class Fullscreen_Window:
                                                                 self.welcomeLabel.grid_forget()
                                                                 self.show_idle1()
                                                         else:
-                                                                label.destroy()
+                                                                
                                                                 user_info = cur.fetchone()
                                                                 userPin = user_info['pin']
                                                                 self.welcomeLabel.grid_forget()
